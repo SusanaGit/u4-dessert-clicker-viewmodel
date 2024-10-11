@@ -50,10 +50,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import com.susanafigueroa.u4_dessert_clicker_viewmodel.data.Datasource
 import com.susanafigueroa.u4_dessert_clicker_viewmodel.model.Dessert
+import com.susanafigueroa.u4_dessert_clicker_viewmodel.ui.DessertClickerViewModel
 import com.susanafigueroa.u4_dessert_clicker_viewmodel.ui.theme.U4dessertclickerviewmodelTheme
 
 // Tag for logging
@@ -72,7 +72,10 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .statusBarsPadding(),
                 ) {
-                    DessertClickerApp(desserts = Datasource.dessertList)
+                    DessertClickerApp(
+                        viewModel = DessertClickerViewModel(),
+                        desserts = Datasource.dessertList
+                    )
                 }
             }
         }
@@ -160,6 +163,7 @@ private fun shareSoldDessertsInformation(intentContext: Context, dessertsSold: I
 
 @Composable
 private fun DessertClickerApp(
+    viewModel: DessertClickerViewModel,
     desserts: List<Dessert>
 ) {
 
@@ -348,13 +352,5 @@ private fun DessertsSoldInfo(dessertsSold: Int, modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
-    }
-}
-
-@Preview
-@Composable
-fun MyDessertClickerAppPreview() {
-    U4dessertclickerviewmodelTheme {
-        DessertClickerApp(listOf(Dessert(R.drawable.cupcake, 5, 0)))
     }
 }
