@@ -18,4 +18,11 @@ class DessertClickerViewModel : ViewModel() {
     fun onDessertSold() {
         _uiState.value = _uiState.value.copy(dessertsSold = _uiState.value.dessertsSold + 1)
     }
+
+    // update to state to update revenue
+    fun onRevenue(currentDessertPrice: Int) {
+        _uiState.value = _uiState.value.copy(
+            revenue = _uiState.value.revenue + currentDessertPrice
+        )
+    }
 }

@@ -5,4 +5,11 @@
     <string name="share">Share</string>
     <string name="share_text">I\'ve clicked %1$d Desserts for a total of $%2$d #AndroidDessertClicker</string>
     <string name="sharing_not_available">Sharing Not Available</string>
+    <string name="oncreate_called">onCreate Called</string>
+    <string name="onstart_called">onStart Called</string>
+    <string name="onresume_called">onResume Called</string>
+    <string name="onrestart_called">onRestart Called</string>
+    <string name="onpause_called">onPause Called</string>
+    <string name="onstop_called">onStop Called</string>
+    <string name="ondestroy_called">onDestroy Called</string>
 </resources>

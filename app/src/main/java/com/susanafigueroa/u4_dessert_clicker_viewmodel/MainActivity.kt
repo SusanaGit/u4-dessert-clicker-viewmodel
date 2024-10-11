@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate Called")
+        Log.d(TAG, getString(R.string.oncreate_called))
         setContent {
             U4dessertclickerviewmodelTheme {
                 // A surface container using the 'background' color from the theme
@@ -84,32 +84,32 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart Called")
+        Log.d(TAG, getString(R.string.onstart_called))
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume Called")
+        Log.d(TAG, getString(R.string.onresume_called))
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAG, "onRestart Called")
+        Log.d(TAG, getString(R.string.onrestart_called))
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "onPause Called")
+        Log.d(TAG, getString(R.string.onpause_called))
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "onStop Called")
+        Log.d(TAG, getString(R.string.onstop_called))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy Called")
+        Log.d(TAG, getString(R.string.ondestroy_called))
     }
 }
 
@@ -170,7 +170,7 @@ private fun DessertClickerApp(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    var revenue by rememberSaveable { mutableStateOf(0) }
+    //var revenue by rememberSaveable { mutableStateOf(0) }
     //var dessertsSold by rememberSaveable { mutableStateOf(0) }
 
     val currentDessertIndex by rememberSaveable { mutableStateOf(0) }
@@ -191,7 +191,7 @@ private fun DessertClickerApp(
                     shareSoldDessertsInformation(
                         intentContext = intentContext,
                         dessertsSold = uiState.dessertsSold,
-                        revenue = revenue
+                        revenue = uiState.revenue
                     )
                 },
                 modifier = Modifier
@@ -209,13 +209,13 @@ private fun DessertClickerApp(
         }
     ) { contentPadding ->
         DessertClickerScreen(
-            revenue = revenue,
+            revenue = uiState.revenue,
             dessertsSold = uiState.dessertsSold,
             dessertImageId = currentDessertImageId,
             onDessertClicked = {
 
                 // Update the revenue
-                revenue += currentDessertPrice
+                viewModel.onRevenue(currentDessertPrice)
                 viewModel.onDessertSold()
 
                 // Show the next dessert
