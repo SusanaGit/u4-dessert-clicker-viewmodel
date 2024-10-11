@@ -13,4 +13,9 @@ class DessertClickerViewModel : ViewModel() {
 
     // Exposes a state that can only be modified within this class. Other components can observe it.
     val uiState: StateFlow<DessertUiState> = _uiState.asStateFlow()
+
+    // update to state to increment dessertSold
+    fun onDessertSold() {
+        _uiState.value = _uiState.value.copy(dessertsSold = _uiState.value.dessertsSold + 1)
+    }
 }

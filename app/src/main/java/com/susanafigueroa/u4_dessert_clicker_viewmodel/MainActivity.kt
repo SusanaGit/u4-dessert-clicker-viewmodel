@@ -171,7 +171,7 @@ private fun DessertClickerApp(
     val uiState by viewModel.uiState.collectAsState()
 
     var revenue by rememberSaveable { mutableStateOf(0) }
-    var dessertsSold by rememberSaveable { mutableStateOf(0) }
+    //var dessertsSold by rememberSaveable { mutableStateOf(0) }
 
     val currentDessertIndex by rememberSaveable { mutableStateOf(0) }
 
@@ -190,7 +190,7 @@ private fun DessertClickerApp(
                 onShareButtonClicked = {
                     shareSoldDessertsInformation(
                         intentContext = intentContext,
-                        dessertsSold = dessertsSold,
+                        dessertsSold = uiState.dessertsSold,
                         revenue = revenue
                     )
                 },
@@ -210,16 +210,16 @@ private fun DessertClickerApp(
     ) { contentPadding ->
         DessertClickerScreen(
             revenue = revenue,
-            dessertsSold = dessertsSold,
+            dessertsSold = uiState.dessertsSold,
             dessertImageId = currentDessertImageId,
             onDessertClicked = {
 
                 // Update the revenue
                 revenue += currentDessertPrice
-                dessertsSold++
+                viewModel.onDessertSold()
 
                 // Show the next dessert
-                val dessertToShow = determineDessertToShow(desserts, dessertsSold)
+                val dessertToShow = determineDessertToShow(desserts, uiState.dessertsSold)
                 currentDessertImageId = dessertToShow.imageId
                 currentDessertPrice = dessertToShow.price
             },
