@@ -2,6 +2,7 @@ package com.susanafigueroa.u4_dessert_clicker_viewmodel.ui
 
 import androidx.lifecycle.ViewModel
 import com.susanafigueroa.u4_dessert_clicker_viewmodel.data.DessertUiState
+import com.susanafigueroa.u4_dessert_clicker_viewmodel.model.Dessert
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,21 +16,38 @@ class DessertClickerViewModel : ViewModel() {
     val uiState: StateFlow<DessertUiState> = _uiState.asStateFlow()
 
     // update to state to increment dessertSold
-    fun onDessertSold() {
+    fun onDessertSold(desserts: List<Dessert>) {
+        onCurrentDessertIndex(desserts)
+        onCurrentDessertPrice(desserts)
         _uiState.value = _uiState.value.copy(dessertsSold = _uiState.value.dessertsSold + 1)
+        onRevenue()
+        onCurrentDessertIndex(desserts)
+        onCurrentDessertPrice(desserts)
     }
 
     // update to state to update revenue
-    fun onRevenue(currentDessertPrice: Int) {
+    fun onRevenue() {
         _uiState.value = _uiState.value.copy(
-            revenue = _uiState.value.revenue + currentDessertPrice
+            revenue = _uiState.value.revenue + _uiState.value.currentDessertPrice
         )
     }
 
     // update to state to currentDessertIndex
-    fun onCurrentDessertIndex() {
+    fun onCurrentDessertIndex(
+        desserts: List<Dessert>
+    ) {
+        val sold = _uiState.value.dessertsSold
+        val newIndex = desserts.indexOfLast { sold >= it.startProductionAmount }
+
+        if (newIndex >= 0) {
+            _uiState.value = _uiState.value.copy(currentDessertIndex = newIndex)
+        }
+    }
+
+    // update to state to currentDessertPrice
+    fun onCurrentDessertPrice(desserts: List<Dessert>) {
         _uiState.value = _uiState.value.copy(
-            currentDessertIndex = _uiState.value.dessertsSold
+            currentDessertPrice = desserts[_uiState.value.currentDessertIndex].price
         )
     }
 }
